@@ -54,6 +54,8 @@
 #define SYS_upcall_wait 470
 #endif
 
+#ifndef DYN_KER_LINK
+
 static int upcall_create(int flags)
 {
 	return syscall(SYS_upcall_create, flags);
@@ -68,6 +70,15 @@ static int upcall_wait(int upfd, struct work_item *work)
 {
 	return syscall(SYS_upcall_wait, upfd, work);
 }
+
+#else
+extern int upcall_create(int flags);
+
+extern int upcall_ctl(int upfd, int op, int fd, __poll_t events, struct work_item *action);
+
+extern int upcall_wait(int upfd, struct work_item *work);
+
+#endif
 
 struct worker {
 	int dying;
