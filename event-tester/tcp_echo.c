@@ -269,7 +269,7 @@ void on_stats(int stats_fd, int epoll_fd)
 
 	init_count = 0;
 
-	write_perf_stats();
+	// write_perf_stats();
 
 	size = strlen(header);
 	for (int i = 0; i < nr_cpus; i++)
@@ -288,18 +288,22 @@ void on_stats(int stats_fd, int epoll_fd)
 		cursor += index;
 	} while (cursor < size);
 
-	for (int i = 0; i < nr_cpus; i++) {
-		size = strlen(threads[i]->perf_line);
-		cursor = 0;
-		do {
-			index = write(out, &threads[i]->perf_line[cursor], size - cursor);
-			if (index <= 0) {
-				perror("perf write:");
-				close(out);
-				exit(1);
-			}
-			cursor += index;
-		} while (cursor < size);
+	if (threads[0]->perf_line != NULL) {
+		for (int i = 0; i < nr_cpus; i++) {
+			size = strlen(threads[i]->perf_line);
+			cursor = 0;
+			if (size == 0)
+				continue;
+			do {
+				index = write(out, &threads[i]->perf_line[cursor], size - cursor);
+				if (index <= 0) {
+					perror("perf write:");
+					close(out);
+					exit(1);
+				}
+				cursor += index;
+			} while (cursor < size);
+		}
 	}
 	shutdown(out, SHUT_WR);
 }

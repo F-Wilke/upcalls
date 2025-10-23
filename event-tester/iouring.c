@@ -181,7 +181,7 @@ static void *worker_func(void *arg)
 		exit(1);
 	}
 
-	setup_perf(me->perf_fds, me->perf_ids, me->index);
+	// setup_perf(me->perf_fds, me->perf_ids, me->index);
 
 	memset(&uring_params, 0, sizeof(struct io_uring_params));
 
@@ -205,8 +205,8 @@ static void *worker_func(void *arg)
 	pthread_mutex_lock(&worker_hang_lock);
 	pthread_mutex_unlock(&worker_hang_lock);
 
-	ioctl(me->perf_fds[0], PERF_EVENT_IOC_RESET, 0);
-	ioctl(me->perf_fds[0], PERF_EVENT_IOC_ENABLE, 0);
+	// ioctl(me->perf_fds[0], PERF_EVENT_IOC_RESET, 0);
+	// ioctl(me->perf_fds[0], PERF_EVENT_IOC_ENABLE, 0);
 
 	while (1) {
 		struct io_uring_cqe *cqe;
