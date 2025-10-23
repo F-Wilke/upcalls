@@ -24,6 +24,7 @@ upcall-initrd
 initrd/lib/
 tcp_echo
 tcp_client
+tcp_echo_threads
 *.cpio.xz
 event-tester/stamp-initrd
 event-tester/liburing

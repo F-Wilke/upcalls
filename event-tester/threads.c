@@ -14,7 +14,7 @@
 #include <sys/socket.h>
 #include <sys/resource.h>
 
-#include <linux/perf_event.h>
+// #include <linux/perf_event.h>
 
 #include "tcp_echo.h"
 
@@ -135,7 +135,7 @@ static void* worker_func(void *arg)
 		exit(1);
 	}
 
-	setup_perf(me->perf_fds, me->perf_ids, me->index);
+	// setup_perf(me->perf_fds, me->perf_ids, me->index);
 
 	// Notify that setup is done
 	pthread_mutex_lock(&init_lock);
@@ -145,8 +145,8 @@ static void* worker_func(void *arg)
 	pthread_mutex_lock(&worker_hang_lock);
 	pthread_mutex_unlock(&worker_hang_lock);
 
-	ioctl(me->perf_fds[0], PERF_EVENT_IOC_RESET, 0);
-	ioctl(me->perf_fds[0], PERF_EVENT_IOC_ENABLE, 0);
+	// ioctl(me->perf_fds[0], PERF_EVENT_IOC_RESET, 0);
+	// ioctl(me->perf_fds[0], PERF_EVENT_IOC_ENABLE, 0);
 
 	/*
 	 * The threaded model will use this thread to run accept for this CPU and then 
